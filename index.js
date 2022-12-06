@@ -28,6 +28,8 @@ const bot = new aoijs.AoiClient({
   intents: "all",
   mobilePlatform: true,
   suppressAllErrors: true,
+  errorMessage: `**Oh-oh, ah ocurrido un error en este comando, Por favor contactate con mi creador o tambien puedes utilizar el comando:
+   \`bug <Reporte>\`**`,
   respondOnEdit: {
     commands: true,
     alwaysExecute: true,
