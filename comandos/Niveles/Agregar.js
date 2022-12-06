@@ -1,14 +1,12 @@
 module.exports = {
-  name: "$alwaysExecute",
-  code: `$djsEval[(async () => {
+  name: "$alwaysExecute",
+  code: `$djsEval[(async () => {
 const levels = require("discord-xp")
 
-let user = await levels.fetch("$authorID", "$guildID", true)
-
-let hasLeveledUp = await levels.appendXp("$authorID", "$guildID", $random[1;30])
+const hasLeveledUp = await levels.appendXp("$authorID", "$guildID", $random[1;30])
 
 if(hasLeveledUp) { 
-let user = await levels.fetch("$authorID", "$guildID", true)
+const user = await levels.fetch("$authorID", "$guildID", true)
 
 message.client.channels.cache.get("$getServerVar[levels]").send({ content: \`$replaceText[$replaceText[$replaceText[$replaceText[$getServerVar[msglevel];(user.mention);<@\${user.userID}>];(user.tag);$userTag];(level);\${user.level}];(user.name);$username]\` })
 }

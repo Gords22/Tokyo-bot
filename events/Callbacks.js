@@ -1,4 +1,4 @@
-module.exports = (bot) => {
+module.exports = (bot, voice) => {
 bot.onMessage()
 bot.onVoiceStateUpdate()
 bot.onInteractionCreate()
@@ -18,4 +18,12 @@ bot.onChannelDelete()
 bot.onChannelPinsUpdate()
 bot.onChannelUpdate()
 bot.onMessageUpdate()
+
+voice.onAudioError()
+voice.onTrackStart()
+voice.onTrackEnd()
+voice.onTrackPause()
+voice.onTrackResume()
+voice.onQueueStart()
+voice.onQueueEnd()
 }

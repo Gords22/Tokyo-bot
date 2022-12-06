@@ -6,6 +6,9 @@ const levels = require("discord-xp")
 keepAlive()
 const keep_alive = require('./keep_alive.js')
 require('dotenv').config()
+const aoimongo = require("aoi.mongo")
+let encode = "utf8"
+const fss = require('fs')
 
 levels.setURL(process.env.uri)
 
@@ -36,23 +39,12 @@ const bot = new aoijs.AoiClient({
     functionError: true
   },
   database:{
-    db: require("dbdjs.db"),
-    type: "dbdjs.db",
-    path: "./database/",
-    tables: ["main"]
+    db: aoimongo,
+    type: "aoi.mongo", 
+    path: process.env.uri,
+    tables: ["main", "perfiles"]
 }
 })
-
-let encode = "utf8"
-const fss = require('fs')
-function backup() {
- fss.writeFileSync('./db backup/db.sql', fss.readFileSync('./database/main/main_scheme_1.sql', {
- encode,
- undefined
- }), 
- {encoding: encode})
-}
-setInterval(backup, 60000) 
 
 const voice = new aoijs.Voice(bot, {
   soundcloud: {
@@ -69,7 +61,7 @@ loader.load(bot.cmd,"./comandos/")
 
 const files = fss.readdirSync('./events').filter(file => file.endsWith('.js'))
 files.forEach(x => {
- require(`./events/${x}`)(bot)
+ require(`./events/${x}`)(bot, voice)
 });
 
 loader.setColors({
@@ -95,14 +87,6 @@ loader.setColors({
   },
  
 })
-
-voice.onAudioError()
-voice.onTrackStart()
-voice.onTrackEnd()
-voice.onTrackPause()
-voice.onTrackResume()
-voice.onQueueStart()
-voice.onQueueEnd()
 
 voice.queueEndCommand({
   channel: "$getServerVar[music]",
@@ -138,39 +122,6 @@ bot.readyCommand({
  channel: '',
  code: `$wait[2d]
 $log[$djseval[require("table").table([["Desarrollador", "$userTag[710941335510712342]"],["Bot",client.user.tag], ["Comandos cargados", client.cmd.default.size],["Ping de WebSocket", client.ws.ping+"ms"], ["Version", "v$packageVersion"]]);yes]]`
-})
-
-bot.status({
-  text: "Midna's lament",
-  type: "WATCHING",
-  time: 12
-})
-
-bot.status({
-  text: "1716",
-  type: "PLAYING",
-  time: 12
-})
-
-bot.status({
-  text: "Mi prefix es T.",
-  type: "WATCHING",
-  time: 12
-})
-
-bot.variables({
-  prefix: "T.",
-  mensaje: "sin mensajes",
-  mensajes: "0",
-  canalwel: "",
-  mensajewel: "",
-  fondowel: "https://media.discordapp.net/attachments/886981800235237426/898952238146388018/702551.jpg",
-  music: "",
-  msgID: "",
-  level: false,
-  levels: "$channelID",
-  msglevel: "Felicidades (user.mention), Subiste al nivel (level)",
-  fondoRnk: "https://media.discordapp.net/attachments/957494648354512906/960022902877610014/Picsart_22-04-02_20-46-55-315.jpg"
 })
 
 console.log(`Hello from Node.js ${process.version}!`);
