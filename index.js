@@ -28,8 +28,8 @@ const bot = new aoijs.AoiClient({
   intents: "all",
   mobilePlatform: true,
   suppressAllErrors: true,
-  errorMessage: `**Oh-oh, ah ocurrido un error en este comando, Por favor contactate con mi creador o tambien puedes utilizar el comando:
-   \`bug <Reporte>\`**`,
+  errorMessage: [`**Oh-oh, ah ocurrido un error en este comando, Por favor contactate con mi creador o tambien puedes utilizar el comando: 
+\`bug <Reporte>\`**`],
   respondOnEdit: {
     commands: true,
     alwaysExecute: true,
@@ -50,13 +50,13 @@ const bot = new aoijs.AoiClient({
 
 const voice = new aoijs.Voice(bot, {
   soundcloud: {
-    clientId: "abcdef012345"
+    clientId: process.env.cloud
   },
   cache: {
     cacheType: "Memory",
     enabled: true,
   }
-},true);
+},false);
 
 const loader = new aoijs.LoadCommands(bot)
 loader.load(bot.cmd,"./comandos/")
@@ -92,8 +92,9 @@ loader.setColors({
 
 voice.queueEndCommand({
   channel: "$getServerVar[music]",
-  code: `$editMessage[$getServerVar[msgID];{newEmbed:{title:Reproductor de Canciones}{description:No hay canciones en reproduccion}{footer:Coloca el nombre o url de alguna cancion (solamente youtube)}{color:GREEN}{image:https://media.discordapp.net/attachments/917928879878983721/951611547313115146/Picsart_22-03-10_15-43-39-566.jpg}}{
-"components": "{actionRow:{button:⏸:danger:pause:false}{button:▶️:danger:resume}{button:⏩:danger:skip}{button:⏹:danger:stop}}"
+  code: `$editMessage[$getServerVar[msgID];{
+    "embeds": "{newEmbed:{title:Tokyo Reproductor}{description:No hay canciones en reproduccion}{footer:Coloca el nombre o url de alguna cancion (solamente youtube)}{color:GREEN}{image:https://media.discordapp.net/attachments/917928879878983721/951611547313115146/Picsart_22-03-10_15-43-39-566.jpg}}",
+    "components": "{actionRow:{button:⏸:success:pause:false}{button:▶️:success:resume}{button:⏩:success:skip}{button:⏹:success:stop}}"
 }]
 $leaveVc
 $onlyIf[$channelExists[$getServerVar[music]]!=false;]
@@ -103,8 +104,9 @@ $suppressErrors`
 
 voice.trackEndCommand({
   channel: "$getServerVar[music]",
-  code: `$editMessage[$getServerVar[msgID];{newEmbed:{title:Reproductor de Canciones}{description:$queue[1;20;{position}.[{title}]({url}) | {user.tag}]}{footer:Coloca el nombre o url de alguna cancion (solamente youtube)}{color:GREEN}{image:https://media.discordapp.net/attachments/917928879878983721/951611547313115146/Picsart_22-03-10_15-43-39-566.jpg}}{
-"components": "{actionRow:{button:⏸:danger:pause:false}{button:▶️:danger:resume}{button:⏩:danger:skip}{button:⏹:danger:stop}}"
+  code: `$editMessage[$getServerVar[msgID];{
+    "embeds": "{newEmbed:{title:Tokyo Reproductor}{description:$queue[1;20;{position}.[{title}]({url}) | {user.tag}]}{footer:Coloca el nombre o url de alguna cancion (solamente youtube)}{color:GREEN}{image:https://media.discordapp.net/attachments/917928879878983721/951611547313115146/Picsart_22-03-10_15-43-39-566.jpg}}",
+    "components": "{actionRow:{button:⏸:success:pause:false}{button:▶️:success:resume}{button:⏩:success:skip}{button:⏹:success:stop}}"
 }]
 $onlyIf[$channelExists[$getServerVar[music]]!=false;]
 $onlyIf[$queueLegth!=0;]

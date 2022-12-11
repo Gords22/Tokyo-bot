@@ -3,20 +3,19 @@ module.exports = {
   usage: "calculator",
   description: "Manda una calculadora hecha en botones",
   code: `$djsEval[(async () => {
-const { calculator } = require('leaf-utils');
+	const { Calculator } = require("leaf-utils");
 
-await calculator({
-			message: message,
-			embed: {
-				title: 'Calculadora',
-				color: 'RANDOM',
-				footer: '$userTag',
-				timestamp: true,
-			},
-			disabledQuery: 'La calculadora a sido desactivada',
-			invalidQuery: 'La ecuacion proporcionada es invalida',
-			othersMessage: 'Solamente <@{{author}}> puede usar los botones',
-})
+	await Calculator({
+		message: message,
+		slash_command: false,
+		time: 300000,
+		embed: {
+			title: "Tokyo Calculadora",
+			color: "#FF5733",
+		},
+		invalidQuery: "La ecuacion dada no es valida",
+		authorOnly: "**Solo <@{{author}}> puede usar los botones**",
+	});
 })()]
 $suppressErrors`
 }
